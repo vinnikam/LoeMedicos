@@ -5,6 +5,7 @@
  */
 package datos;
 
+import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -12,7 +13,7 @@ import java.util.Date;
  *
  * @author TP303
  */
-public class Paciente {
+public class Paciente implements Serializable{
     private String nombre;
     private String identificacion;
     private Date fechaNac; 

@@ -1,9 +1,11 @@
 package datos;
 
+import java.io.Serializable;
+
 /**
  *
  * @author TP303
  */
-public enum OpcionCita {
-    PEDIATRIA, MEDICINA_GENERAL,MEDICINA_PEDIATRICA;
+public enum OpcionCita implements Serializable{
+    ODONTOLOGIA, MEDICINA_GENERAL,MEDICINA_PEDIATRICA;
 }

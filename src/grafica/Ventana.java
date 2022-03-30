@@ -5,12 +5,14 @@
  */
 package grafica;
 
+import com.toedter.calendar.JDateChooser;
 import datos.Cita;
 import datos.OpcionCita;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Map;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 import logica.GestorCitas;
 
 /**
@@ -18,12 +20,25 @@ import logica.GestorCitas;
  * @author TP303
  */
 public class Ventana extends javax.swing.JFrame {
+    private OpcionCita laopcion;
+    private JDateChooser cjFechaNac;
+    private JDateChooser cjFechaCita;
+    
+    private DefaultTableModel modelTabla;
 
     /**
      * Creates new form Ventana
      */
     public Ventana() {
         initComponents();
+        cjFechaNac = new JDateChooser();
+        getContentPane().add(cjFechaNac);
+        cjFechaNac.setBounds(420, 30, 150, 20);
+        cjFechaCita = new JDateChooser();
+        getContentPane().add(cjFechaCita);
+        cjFechaCita.setBounds(40, 110, 150, 20);
+        
+        this.cargarCitas();
     }
 
     /**
@@ -35,63 +50,63 @@ public class Ventana extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        grupoOpciones = new javax.swing.ButtonGroup();
         cjNombre = new javax.swing.JTextField();
         cjIdentificacion = new javax.swing.JTextField();
-        jRadioButton1 = new javax.swing.JRadioButton();
-        jRadioButton2 = new javax.swing.JRadioButton();
-        cjFechaNac = new javax.swing.JTextField();
+        opMedicina = new javax.swing.JRadioButton();
+        opOdontologia = new javax.swing.JRadioButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        cjFechaCita = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         btGuardar = new javax.swing.JButton();
         btSalir = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tablaCitas = new javax.swing.JTable();
+        jLabel5 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(null);
         getContentPane().add(cjNombre);
-        cjNombre.setBounds(50, 30, 160, 20);
+        cjNombre.setBounds(50, 30, 160, 22);
         getContentPane().add(cjIdentificacion);
-        cjIdentificacion.setBounds(230, 30, 160, 20);
+        cjIdentificacion.setBounds(230, 30, 160, 22);
 
-        jRadioButton1.setText("MEDICINE");
-        jRadioButton1.addActionListener(new java.awt.event.ActionListener() {
+        grupoOpciones.add(opMedicina);
+        opMedicina.setText("MEDICINE");
+        opMedicina.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jRadioButton1ActionPerformed(evt);
+                opMedicinaActionPerformed(evt);
             }
         });
-        getContentPane().add(jRadioButton1);
-        jRadioButton1.setBounds(200, 100, 120, 23);
+        getContentPane().add(opMedicina);
+        opMedicina.setBounds(200, 100, 120, 25);
 
-        jRadioButton2.setText("ODONTOLOGY");
-        jRadioButton2.addActionListener(new java.awt.event.ActionListener() {
+        grupoOpciones.add(opOdontologia);
+        opOdontologia.setText("ODONTOLOGY");
+        opOdontologia.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jRadioButton2ActionPerformed(evt);
+                opOdontologiaActionPerformed(evt);
             }
         });
-        getContentPane().add(jRadioButton2);
-        jRadioButton2.setBounds(200, 120, 140, 23);
-        getContentPane().add(cjFechaNac);
-        cjFechaNac.setBounds(420, 30, 150, 20);
+        getContentPane().add(opOdontologia);
+        opOdontologia.setBounds(200, 120, 140, 25);
 
         jLabel1.setText("NAME");
         getContentPane().add(jLabel1);
-        jLabel1.setBounds(110, 10, 28, 14);
+        jLabel1.setBounds(48, 10, 90, 16);
 
         jLabel2.setText("IDENTIFICATION");
         getContentPane().add(jLabel2);
-        jLabel2.setBounds(240, 10, 110, 14);
+        jLabel2.setBounds(240, 10, 130, 16);
 
         jLabel3.setText("BIRTHDATE");
         getContentPane().add(jLabel3);
-        jLabel3.setBounds(450, 10, 100, 14);
-        getContentPane().add(cjFechaCita);
-        cjFechaCita.setBounds(40, 110, 150, 20);
+        jLabel3.setBounds(430, 10, 120, 16);
 
         jLabel4.setText("DATE");
         getContentPane().add(jLabel4);
-        jLabel4.setBounds(70, 90, 70, 14);
+        jLabel4.setBounds(50, 90, 90, 16);
 
         btGuardar.setText("SAVE");
         btGuardar.addActionListener(new java.awt.event.ActionListener() {
@@ -100,28 +115,63 @@ public class Ventana extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btGuardar);
-        btGuardar.setBounds(320, 170, 130, 23);
+        btGuardar.setBounds(320, 170, 130, 25);
 
         btSalir.setText("EXIT");
+        btSalir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btSalirActionPerformed(evt);
+            }
+        });
         getContentPane().add(btSalir);
-        btSalir.setBounds(460, 170, 110, 23);
+        btSalir.setBounds(460, 170, 110, 25);
 
-        setSize(new java.awt.Dimension(609, 247));
+        tablaCitas.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(tablaCitas);
+
+        getContentPane().add(jScrollPane1);
+        jScrollPane1.setBounds(30, 220, 540, 280);
+
+        jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 10)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(0, 0, 204));
+        jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel5.setText("Construído por : Vinni 2022");
+        getContentPane().add(jLabel5);
+        jLabel5.setBounds(360, 510, 230, 14);
+
+        setSize(new java.awt.Dimension(614, 565));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1ActionPerformed
+    private void opMedicinaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_opMedicinaActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jRadioButton1ActionPerformed
+        this.clickOpcion(1);
+    }//GEN-LAST:event_opMedicinaActionPerformed
 
-    private void jRadioButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton2ActionPerformed
+    private void opOdontologiaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_opOdontologiaActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jRadioButton2ActionPerformed
+        this.clickOpcion(2);
+    }//GEN-LAST:event_opOdontologiaActionPerformed
 
     private void btGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btGuardarActionPerformed
         // TODO add your handling code here:
         this.crearCita();
     }//GEN-LAST:event_btGuardarActionPerformed
+
+    private void btSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSalirActionPerformed
+        // TODO add your handling code here:
+        System.exit(0);
+    }//GEN-LAST:event_btSalirActionPerformed
 
     /**
      * @param args the command line arguments
@@ -136,18 +186,27 @@ public class Ventana extends javax.swing.JFrame {
             }
         });
     }// FIN DE MAIN
-    
+    private void clickOpcion(int opcion){
+        //JOptionPane.showMessageDialog(this, opcion);
+        if (opcion == 1){
+            this.laopcion = OpcionCita.MEDICINA_GENERAL;
+        }else{
+            this.laopcion = OpcionCita.ODONTOLOGIA;
+        }
+    }
     private void crearCita(){
         
         String nombre = cjNombre.getText();
         String identificacion = cjIdentificacion.getText();
-        Date fechaNac = this.convertirStrinToDate(cjFechaNac.getText());
-        Date fecha = this.convertirStrinToDate(cjFechaCita.getText());
+        Date fechaNac = cjFechaNac.getDate();//this.convertirStrinToDate(cjFechaNac.getText());
+        Date fecha = cjFechaCita.getDate();//this.convertirStrinToDate(cjFechaCita.getText());
         
         GestorCitas g = new GestorCitas();
-        Cita c = g.crearCita(nombre, identificacion, fechaNac, fecha, OpcionCita.PEDIATRIA);
+        Cita c = g.crearCita(nombre, identificacion, fechaNac, fecha, this.laopcion);
         if (c != null){
-            JOptionPane.showMessageDialog(this, "Creo la cita");
+            this.cargarCitas();
+            JOptionPane.showMessageDialog(this, "Creo la cita ->"+c);
+            
         }else{
             JOptionPane.showMessageDialog(this, "Noooo Creo la cita");
         }
@@ -170,15 +229,43 @@ public class Ventana extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btGuardar;
     private javax.swing.JButton btSalir;
-    private javax.swing.JTextField cjFechaCita;
-    private javax.swing.JTextField cjFechaNac;
     private javax.swing.JTextField cjIdentificacion;
     private javax.swing.JTextField cjNombre;
+    private javax.swing.ButtonGroup grupoOpciones;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JRadioButton jRadioButton1;
-    private javax.swing.JRadioButton jRadioButton2;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JRadioButton opMedicina;
+    private javax.swing.JRadioButton opOdontologia;
+    private javax.swing.JTable tablaCitas;
     // End of variables declaration//GEN-END:variables
+
+    private void cargarCitas() {
+        DefaultTableModel modelo = new DefaultTableModel();
+        modelo.addColumn("CODE");
+        modelo.addColumn("DATE");
+        modelo.addColumn("PATIENT IDENTIFICATION");
+        modelo.addColumn("PATIENT NAME");
+        modelo.addColumn("TYPE");
+        
+        GestorCitas gestor = new GestorCitas();
+        Map<String, Cita> lista = gestor.obtenerLista();
+        for (Map.Entry<String, Cita> dato  : lista.entrySet()) {
+            Cita lacita = dato.getValue();
+            Object[] datos = {
+                lacita.getCodigo(),
+                utilidades.Util.convertirDateString(lacita.obtenerFecha()),
+                lacita.obtenerPaciente().obtenerIdentificacion(),
+                lacita.obtenerPaciente().obtenerNombre(),
+                lacita.obtenerOpcion().toString()
+            };
+            modelo.addRow(datos);
+            
+        }
+        this.tablaCitas.setModel(modelo);
+    }
+    
 }//FIN DE CLASE

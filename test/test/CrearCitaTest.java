@@ -29,35 +29,35 @@ public class CrearCitaTest {
     public void crearCitaPacienteNull(){
         GestorCitas gcita = new GestorCitas();
         Calendar c = Calendar.getInstance();
-        Cita lacita = gcita.crearCita(null, null, null, c.getTime(), OpcionCita.PEDIATRIA);
+        Cita lacita = gcita.crearCita(null, null, null, c.getTime(), OpcionCita.ODONTOLOGIA);
         assertNull(lacita);
     }
     @Test
     public void crearCitaPacienteNotNull(){
         GestorCitas gcita = new GestorCitas();
         Calendar c = Calendar.getInstance();
-        Cita lacita = gcita.crearCita("Julio", "752222", c.getTime(), c.getTime(), OpcionCita.PEDIATRIA);
+        Cita lacita = gcita.crearCita("Julio", "752222", c.getTime(), c.getTime(), OpcionCita.ODONTOLOGIA);
         assertNotNull(lacita);
     }
     @Test
     public void crearCitaPacienteFechaNull(){
         GestorCitas gcita = new GestorCitas();
         Calendar c = Calendar.getInstance();
-        Cita lacita = gcita.crearCita("Julio", "752222", null, c.getTime(), OpcionCita.PEDIATRIA);
+        Cita lacita = gcita.crearCita("Julio", "752222", null, c.getTime(), OpcionCita.ODONTOLOGIA);
         assertNull(lacita);
     }
     @Test
     public void crearCitaPacienteFechaCitaNull(){
         GestorCitas gcita = new GestorCitas();
         Calendar c = Calendar.getInstance();
-        Cita lacita = gcita.crearCita("Julio", "752222",  c.getTime(),null, OpcionCita.PEDIATRIA);
+        Cita lacita = gcita.crearCita("Julio", "752222",  c.getTime(),null, OpcionCita.ODONTOLOGIA);
         assertNull(lacita);
     }
     @Test
     public void crearCitaPacienteBlancoNull(){
         GestorCitas gcita = new GestorCitas();
         Calendar c = Calendar.getInstance();
-        Cita lacita = gcita.crearCita("", "",  c.getTime(),c.getTime(), OpcionCita.PEDIATRIA);
+        Cita lacita = gcita.crearCita("", "",  c.getTime(),c.getTime(), OpcionCita.ODONTOLOGIA);
         assertNull(lacita);
     }
 }

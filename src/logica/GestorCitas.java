@@ -4,12 +4,24 @@ import datos.Cita;
 import datos.OpcionCita;
 import datos.Paciente;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import utilidades.GestorPersistencia;
 
 /**
  *
  * @author TP303
  */
 public class GestorCitas {
+    private Map<String, Cita> listaCitas;
+    public GestorCitas(){
+        if (listaCitas == null){
+            listaCitas = (Map<String, Cita> )GestorPersistencia.recuperar();
+            if (listaCitas == null){
+                listaCitas = new HashMap<>();
+            }
+        }
+    }
 //    public Cita crearCita(Paciente elpac, Date fecha, OpcionCita opcion){
 //        return null;
 //    }
@@ -23,10 +35,12 @@ public class GestorCitas {
             return null;
         }else{
             Paciente elPaciente = this.crearPaciente(nombre, identificacion, fechaNac);
-            Cita c = new Cita();
-            c.modificaElPaciente(elPaciente);
-            c.modificaFecha(fecha);
-            c.modificaOpcion(opcion);
+            Cita c = new Cita(elPaciente, fecha, opcion);
+            //c.modificaElPaciente(elPaciente);
+            //c.modificaFecha(fecha);
+            //c.modificaOpcion(opcion);
+            listaCitas.put(c.getCodigo(), c);
+            GestorPersistencia.guardar(listaCitas);
             return c;
         }
         
@@ -38,5 +52,8 @@ public class GestorCitas {
         p.modificaIdentificacion(identificacion);
         p.modificaNombre(nombre);
         return p;
+    }
+    public Map<String, Cita> obtenerLista(){
+        return this.listaCitas;
     }
 }
